@@ -1,38 +1,28 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+#Concept:
+•	The game will be set in a cubic world with different biomes on each side that can be rotated by the player.
+•	The goal of the game is to explore the world, collect resources, and build structures while fighting off enemies and bosses.
+•	The game will have both single-player and multiplayer modes with the option for cooperative play, guilds, and PvP arenas.
+#Gameplay:
+•	Players will be able to move around the world using a first-person perspective.
+•	Combat will be real-time and will involve a variety of weapons and abilities.
+•	The game will have a leveling system that unlocks new abilities and gear as the player progresses.
+•	There will be rare and unique gear with randomized modifiers, similar to the system in Path of Exile.
+•	The game will have quests, dungeons, and bosses for players to complete for rewards.
+#World:
+•	The world will consist of multiple biomes, each with its own unique resources and enemies.
+•	Each biome will have a shop where players can buy and sell items, as well as an arena for PvP battles.
+•	There will also be hidden areas and secrets for players to discover.
+•	Pets from different biomes can be collected and used to aid the player in combat and exploration.
+#Multiplayer:
+•	Cooperative play will allow players to work together to explore the world and defeat bosses.
+•	Guilds can be formed for socializing, trading, and completing quests together.
+•	PvP arenas will allow players to battle against each other for rewards and bragging rights.
+#Graphics:
+•	The game will be 3D and built using the Three.js library.
+•	The cubic world will allow for simple yet visually striking designs for both the environment and characters.
+•	The game will have a customizable UI with various options for players to adjust for their preferred playstyle.
+#Monetization:
+•	The game will have cosmetic items available for purchase, such as skins and pets.
+•	There may be a one-time purchase option for access to the full game or a subscription model for continuous updates and content releases.
+Overall, the game aims to provide players with an immersive and engaging experience that encourages exploration and creativity while also offering challenging combat and multiplayer interactions.
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
