@@ -31,3 +31,4 @@
 •	There may be a one-time purchase option for access to the full game or a subscription model for continuous updates and content releases.
 
 Overall, the game aims to provide players with an immersive and engaging experience that encourages exploration and creativity while also offering challenging combat and multiplayer interactions.
+Overall, the game aims to provide players with an immersive and engaging experience that encourages exploration and creativity while also offering challenging combat and multiplayer interactions.

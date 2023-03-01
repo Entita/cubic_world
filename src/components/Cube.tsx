@@ -6,28 +6,123 @@ interface CubeProps {
   size?: number;
   rotation?: { x: number; y: number; z: number };
   rotationSpeed?: number;
+  gridSize?: number;
 }
 
-const Cube: React.FC<CubeProps> = ({ size = 2, rotation = { x: 0, y: 0, z: 0 }, rotationSpeed = 1 }) => {
+const Cube: React.FC<CubeProps> = ({ size = 2, rotation = { x: 0, y: 0, z: 0 }, rotationSpeed = 1, gridSize = 16 }) => {
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
   const animationRef = React.useRef<number>(0)
   const scene = React.useMemo(() => new Scene(), [])
 
   const camera = React.useMemo(() => new PerspectiveCamera(75, 1, 0.1, 1000), [])
   const [cameraPosition, setCameraPosition] = React.useState<{ x: number; y: number; z: number }>({ x: 0, y: 0, z: 5 })
-  
-  const cubeGeometry = React.useMemo(() => new BoxGeometry(size, size, size), [size])
-  const cubeMaterial = React.useMemo(() => [
-    new MeshBasicMaterial({ color: 0xff0000 }), // red
-    new MeshBasicMaterial({ color: 0x00ff00 }), // green
-    new MeshBasicMaterial({ color: 0x0000ff }), // blue
-    new MeshBasicMaterial({ color: 0xffff00 }), // yellow
-    new MeshBasicMaterial({ color: 0xff00ff }), // magenta
-    new MeshBasicMaterial({ color: 0x00ffff }), // cyan
-  ], [])
-  const cube = React.useMemo(() => new Mesh(cubeGeometry, cubeMaterial), [cubeGeometry, cubeMaterial])
+
+  const plainCubeSize = React.useMemo(() => size - size / gridSize, [size, gridSize])
+  const plainCubeGeometry = React.useMemo(() => new BoxGeometry(plainCubeSize, plainCubeSize, plainCubeSize), [plainCubeSize])
+  const plainCubeMaterial = React.useMemo(() => new MeshBasicMaterial({ color: 'white' }), [])
+  const plainCube = React.useMemo(() => new Mesh(plainCubeGeometry, plainCubeMaterial), [plainCubeGeometry, plainCubeMaterial])
   const [cubeRotation, setCubeRotation] = React.useState<{ x: number; y: number; z: number }>(rotation)
   const [cubePosition, setCubePosition] = React.useState({ x: 0, y: 0, z: 0 })
+
+  const createCubeSide = (color: string, rotationX: number, rotationY: number) => {
+    const group = new Group()
+    const smallGridSize = gridSize - 2
+    for (let i = 0; i < smallGridSize; i++) {
+      for (let ii = 0; ii < smallGridSize; ii++) {
+        const geometry = new BoxGeometry(size / gridSize, size / gridSize, size / gridSize)
+        const material = new MeshBasicMaterial({ color })
+        const square = new Mesh(geometry, material)
+        const halfSquareSize = size / gridSize / 2
+        const squareDiff = size / 2 - halfSquareSize
+
+        square.position.x += (ii + 1) / gridSize * 2 - squareDiff
+        square.position.z += (i + 1) / gridSize * 2 - squareDiff
+        square.position.y = squareDiff
+
+        group.add(square)
+      }
+    }
+    group.rotation.x = rotationX
+    group.rotation.z = rotationY
+    return group
+  }
+
+  const createCubeFrame = (color: string) => {
+    const pieceOfFrame = (x: number = 0, y: number = 0, z: number = 0) => {
+      const group = new Group()
+      for (let i = 0; i < gridSize; i++) {
+        const geometry = new BoxGeometry(size / gridSize, size / gridSize, size / gridSize)
+        const material = new MeshBasicMaterial({ color })
+        const square = new Mesh(geometry, material)
+        const halfSquareSize = size / gridSize / 2
+        const squareDiff = size / 2 - halfSquareSize
+
+        square.position.x += squareDiff
+        square.position.z += i / gridSize * 2 - squareDiff
+        square.position.y = squareDiff
+
+        group.add(square)
+      }
+      group.rotation.set(x, y, z)
+      return group
+    }
+
+    const group = new Group()
+    // Top
+    const firstPieceOfFrame = pieceOfFrame(0, 0, 0)
+    const secondPieceOfFrame = pieceOfFrame(0, Math.PI, 0)
+    const thirdPieceOfFrame = pieceOfFrame(0, Math.PI/2, 0)
+    const fourthPieceOfFrame = pieceOfFrame(0, Math.PI/2, Math.PI/2)
+
+    // Sides
+    const fifthPieceOfFrame = pieceOfFrame(Math.PI/2, 0, 0)
+    const sixthPieceOfFrame = pieceOfFrame(Math.PI/2, Math.PI, 0)
+    const seventhPieceOfFrame = pieceOfFrame(Math.PI/2, Math.PI, Math.PI)
+    const eighthPieceOfFrame = pieceOfFrame(Math.PI/2, 0, Math.PI)
+
+    // Bottom
+    const ninthPieceOfFrame = pieceOfFrame(Math.PI, 0, 0)
+    const tenthPieceOfFrame = pieceOfFrame(Math.PI, Math.PI, 0)
+    const eleventhPieceOfFrame = pieceOfFrame(Math.PI, Math.PI/2, 0)
+    const twelfthPieceOfFrame = pieceOfFrame(Math.PI, Math.PI/2, Math.PI/2)
+
+    group.add(firstPieceOfFrame)
+    group.add(secondPieceOfFrame)
+    group.add(thirdPieceOfFrame)
+    group.add(fourthPieceOfFrame)
+
+    group.add(fifthPieceOfFrame)
+    group.add(sixthPieceOfFrame)
+    group.add(seventhPieceOfFrame)
+    group.add(eighthPieceOfFrame)
+    
+    group.add(ninthPieceOfFrame)
+    group.add(tenthPieceOfFrame)
+    group.add(eleventhPieceOfFrame)
+    group.add(twelfthPieceOfFrame)
+    return group
+  }
+
+  const cube = React.useMemo(() => {
+    const group = new Group()
+    const frame = createCubeFrame('pink')
+    const topSide = createCubeSide('blue', 0, 0)
+    const frontSide = createCubeSide('green', Math.PI/2, 0)
+    const leftSide = createCubeSide('red', Math.PI/2, Math.PI/2)
+    const rightSide = createCubeSide('purple', Math.PI/2, -Math.PI/2)
+    const backSide = createCubeSide('yellow', -Math.PI/2, 0)
+    const bottomSide = createCubeSide('lime', Math.PI, 0)
+
+    group.add(frame)
+    group.add(topSide)
+    group.add(frontSide)
+    group.add(leftSide)
+    group.add(rightSide)
+    group.add(backSide)
+    group.add(bottomSide)
+    return group
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gridSize, size])
 
   const sphereGeometry =  React.useMemo(() => new SphereGeometry(0.5, 32, 32), [])
   const sphereMaterial =  React.useMemo(() => new MeshBasicMaterial({ color: 0xff8000 }), [])
@@ -36,13 +131,14 @@ const Cube: React.FC<CubeProps> = ({ size = 2, rotation = { x: 0, y: 0, z: 0 }, 
 
   const group = React.useMemo(() => {
     const group = new Group()
-    group.add(cube)
+    group.add(plainCube)
     group.add(sphere)
+    group.add(cube)
     group.rotation.set(cubeRotation.x, cubeRotation.y, cubeRotation.z)
-    cube.position.set(cubePosition.x, cubePosition.y, cubePosition.z)
+    plainCube.position.set(cubePosition.x, cubePosition.y, cubePosition.z)
     sphere.position.set(spherePosition.x, spherePosition.y, spherePosition.z)
     return group
-  }, [cube, sphere, cubeRotation, cubePosition, spherePosition])
+  }, [plainCube, sphere, cubeRotation, cubePosition, spherePosition, cube])
 
   const [renderer, setRenderer] = React.useState<WebGLRenderer | null>(null)
   const [controls, setControls] = React.useState<OrbitControls | null>(null)
@@ -135,7 +231,7 @@ const Cube: React.FC<CubeProps> = ({ size = 2, rotation = { x: 0, y: 0, z: 0 }, 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [canvasRef, size, renderer, camera, scene, cube, sphere, group])
   
-  return <canvas ref={canvasRef} style={{ width: "100vw", height: "100vh" }} />
+  return <canvas ref={canvasRef} style={{ width: "100vw", height: "100vh", background: 'black' }} />
 }
 
 export default Cube
