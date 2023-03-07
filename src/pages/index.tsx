@@ -22,7 +22,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <canvas ref={canvasRef} onContextMenu={(e) => e.preventDefault()} style={{ width: "100vw", height: "100vh", background: 'black' }} />
+        <canvas ref={canvasRef} style={{ width: "100vw", height: "100vh", background: 'black' }} />
         {canvas && <Game canvas={canvas} />}
       </main>
     </>
