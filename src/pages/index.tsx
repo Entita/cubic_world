@@ -1,18 +1,17 @@
 import React from 'react'
 import Head from 'next/head'
-import Controls from '../components/Controls'
-import Cube from '../components/Cube'
+import Game from '@/components/Game'
 
 export default function Home() {
-  const [rotation, setRotation] = React.useState({ x: 0, y: 0, z: 0 })
+  const canvasRef = React.useRef<HTMLCanvasElement | null>(null)
+  const [canvas, setCanvas] = React.useState<HTMLCanvasElement | null>(null)
 
-  const rotateCube = ({ x, y, z }: { x: number, y: number, z: number }): void => {
-    setRotation((prevRotation: { x: number; y: number; z: number }) => ({
-      x: x ? prevRotation.x + x : prevRotation.x,
-      y: y ? prevRotation.y + y : prevRotation.y,
-      z: z ? prevRotation.z + z : prevRotation.z,
-    }))
-  }
+  React.useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    else setCanvas(canvas)
+
+  }, [canvasRef])
 
   return (
     <>
@@ -23,8 +22,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Controls rotateCube={rotateCube} />
-        <Cube rotation={rotation} />
+        <canvas ref={canvasRef} onContextMenu={(e) => e.preventDefault()} style={{ width: "100vw", height: "100vh", background: 'black' }} />
+        {canvas && <Game canvas={canvas} />}
       </main>
     </>
   )
