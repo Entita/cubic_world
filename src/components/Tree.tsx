@@ -1,20 +1,33 @@
-import { Group, Mesh, MeshBasicMaterial, SphereGeometry, CylinderGeometry, Color } from 'three'
+import { Group } from 'three'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+
+const treeModelPaths = [
+  'assets/forest/tree1.gltf',
+  'assets/forest/tree2.gltf',
+  'assets/forest/tree3.gltf',
+  'assets/forest/tree4.gltf',
+  'assets/forest/tree5.gltf',
+]
+
+const getRandomTreeModelPath = () => {
+  const index = Math.floor(Math.random() * treeModelPaths.length);
+  return treeModelPaths[index];
+}
 
 export class Tree {
+  treeModelPath = getRandomTreeModelPath()
   group = new Group()
+  loader: GLTFLoader
 
-  constructor({ size }: { size: number }) {
-    const trunkGeometry = new CylinderGeometry(size * .025, size * .025, size * .2)
-    const trunkMaterial = new MeshBasicMaterial({ color: new Color('brown') })
-    const trunk = new Mesh(trunkGeometry, trunkMaterial)
-    trunk.position.y = size * .6;
+  constructor({ loader, size }: { loader: GLTFLoader, size: number }) {
+    this.loader = loader
 
-    const leavesGeometry = new SphereGeometry(size * .15, size * 4, size * 3)
-    const leavesMaterial = new MeshBasicMaterial({ color: new Color('green') })
-    const leaves = new Mesh(leavesGeometry, leavesMaterial)
-    leaves.position.y = size * .8;
+    this.initialization()
+  }
 
-    this.group.add(trunk)
-    this.group.add(leaves)
+  initialization = () => {
+    this.loader.load(this.treeModelPath, (gltf) => {
+      this.group.add(gltf.scene)
+    })
   }
 }

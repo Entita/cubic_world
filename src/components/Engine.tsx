@@ -3,6 +3,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { EffectComposer  } from 'three/examples/jsm/postprocessing/EffectComposer.js'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { Cube } from "./Cube"
 
 export class Engine {
@@ -12,6 +13,7 @@ export class Engine {
   camera = new PerspectiveCamera(75, 1, 0.1, 1000)
   light = new DirectionalLight('white', 1)
   raycaster = new Raycaster()
+  loader = new GLTFLoader()
   group = new Group()
   arrayOfObjects: Array<Cube> = []
 
@@ -25,7 +27,7 @@ export class Engine {
   constructor({ canvas }: { canvas: HTMLCanvasElement }) {
     this.canvas = canvas
 
-    this.cube = new Cube()
+    this.cube = new Cube({ loader: this.loader })
 
     this.renderer = new WebGLRenderer({ canvas, antialias: true, logarithmicDepthBuffer: true })
     this.composer = new EffectComposer(this.renderer)

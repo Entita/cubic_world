@@ -1,13 +1,16 @@
 import { BoxGeometry, MeshBasicMaterial, Mesh, Color, Group } from "three";
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { Tree } from "./Tree"
 
 export class Cube {
   group = new Group()
 
   targetRotation: { x: number; y: number; z: number; } = { x: 0, y: 0, z: 0 }
-  rotationSpeed: number;
+  rotationSpeed: number
+  loader: GLTFLoader
 
-  constructor({ size = 2, rotationSpeed = 1 }: { size?: number, rotationSpeed?: number } = {}) {
+  constructor({ loader, size = 2, rotationSpeed = 1 }: { loader: GLTFLoader,size?: number, rotationSpeed?: number }) {
+    this.loader = loader
     const cubeGeometry = new BoxGeometry(size, size, size)
     const cubeMaterial = [
       new MeshBasicMaterial({ color: new Color("red") }),
@@ -18,7 +21,7 @@ export class Cube {
       new MeshBasicMaterial({ color: new Color("green") }),
     ]
 
-    const tree = new Tree({ size })
+    const tree = new Tree({ loader, size })
     const cube = new Mesh(cubeGeometry, cubeMaterial)
     this.rotationSpeed = rotationSpeed
 
