@@ -23,6 +23,7 @@ export class Cube {
 
     const tree = new Tree({ loader, size })
     const cube = new Mesh(cubeGeometry, cubeMaterial)
+    cube.userData.outline = true
     this.rotationSpeed = rotationSpeed
 
     this.group.add(cube)

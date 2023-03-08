@@ -73,8 +73,12 @@ export class Engine {
 
     const intersects = this.raycaster.intersectObjects(this.group.children, true)
 
-    if ( intersects.length > 0 ) this.outlinePass.selectedObjects = [intersects[0].object]
-    else this.outlinePass.selectedObjects = []
+    if ( intersects.length > 0 ) {
+      var object = intersects[0].object
+      while (object.parent && !object.userData.outline) object = object.parent
+
+      this.outlinePass.selectedObjects = [object]
+    } else this.outlinePass.selectedObjects = []
   }
 
   handleResize = () => {
