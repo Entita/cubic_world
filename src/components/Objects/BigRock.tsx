@@ -15,8 +15,8 @@ export class BigRock extends Model {
   group = new Group()
   loader: GLTFLoader
 
-  constructor({ loader, size }: { loader: GLTFLoader, size: number }) {
-    super({ loader, size, modelPaths })
+  constructor({ loader, size, type }: { loader: GLTFLoader, size: number, type?: number }) {
+    super({ loader, size, modelPaths, type })
     this.loader = loader
 
     this.initialization()

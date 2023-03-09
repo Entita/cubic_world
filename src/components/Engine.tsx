@@ -49,6 +49,7 @@ export class Engine {
     this.camera.updateProjectionMatrix()
     
     this.renderer.setSize(width, height)
+    this.composer.setSize(width, height)
 
     const directionalLight = new DirectionalLight('white', 1)
     directionalLight.position.set(0, 1, 0)
@@ -62,7 +63,6 @@ export class Engine {
     this.scene.add(this.group)
 
     const renderPass = new RenderPass(this.scene, this.camera)
-    this.composer.setSize(window.innerWidth, window.innerHeight)
     this.composer.addPass(renderPass)
     this.composer.addPass(this.outlinePass)
 

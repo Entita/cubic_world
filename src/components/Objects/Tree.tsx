@@ -14,8 +14,8 @@ export class Tree extends Model {
   group = new Group()
   loader: GLTFLoader
 
-  constructor({ loader, size }: { loader: GLTFLoader, size: number }) {
-    super({ loader, size, modelPaths })
+  constructor({ type, loader, size }: { type?: number, loader: GLTFLoader, size: number }) {
+    super({ loader, size, modelPaths, type })
     this.loader = loader
 
     this.initialization()
