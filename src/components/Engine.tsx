@@ -67,6 +67,7 @@ export class Engine {
     this.composer.addPass(this.outlinePass)
 
     window.addEventListener('resize', this.handleResize)
+    window.addEventListener('keydown', this.handleKeydown)
     this.canvas.addEventListener('mousemove', this.onMouseMove)
     this.canvas.addEventListener('pointerdown', this.onMouseKeydown)
   }
@@ -85,6 +86,10 @@ export class Engine {
 
       if (object.userData.outline) this.outlinePass.selectedObjects = [object]
     } else this.outlinePass.selectedObjects = []
+  }
+
+  handleKeydown = (e: any) => {
+    if (e.key.toLowerCase() === 'h') this.cube.gridHelper.visible = !this.cube.gridHelper.visible
   }
 
   onMouseKeydown = (e: any) => {

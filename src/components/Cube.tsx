@@ -16,14 +16,16 @@ export class Cube {
   targetRotation: { x: number; y: number; z: number; } = { x: 0, y: 0, z: 0 }
   rotationSpeed: number
   loader: GLTFLoader
+  gridHelper: Group
 
   constructor({ loader, size = 2, rotationSpeed = 1, gridSize = 10 }: { loader: GLTFLoader,size?: number, rotationSpeed?: number, gridSize?: number }) {
     this.grid = [...Array(gridSize)].map(() => Array(gridSize))
     this.loader = loader
     this.rotationSpeed = rotationSpeed
 
+    this.gridHelper = this.createGridHelper(size, gridSize, 'cyan')
+    this.gridHelper.visible = false
     const cube = this.createCube(size)
-    const gridHelper = this.createGridHelper(size, gridSize, 'cyan')
     const tree = new Tree({ loader, size })
     const bigRock = new BigRock({ loader, size })
     const smallRock = new SmallRock({ loader, size })
@@ -32,7 +34,7 @@ export class Cube {
     const trunk = new Trunk({ loader, size })
     const pedal = new Pedal({ loader, size })
     const grass = new Grass({ loader, size })
-
+    
     this.grid[0][0] = tree.group
     this.grid[0][1] = bigRock.group
     this.grid[0][2] = smallRock.group
@@ -41,11 +43,11 @@ export class Cube {
     this.grid[0][5] = trunk.group
     this.grid[0][6] = pedal.group
     this.grid[0][7] = grass.group
-
+    
     // this.group.add(tree.group)
     const objectsFromGrid = this.getGroupsFromGrid()
     this.group.add(objectsFromGrid)
-    this.group.add(gridHelper)
+    this.group.add(this.gridHelper)
     this.group.add(cube)
   }
 
