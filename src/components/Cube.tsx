@@ -108,12 +108,12 @@ export class Cube {
   createCube = (size: number) => {
     const cubeGeometry = new BoxGeometry(size, size, size)
     const cubeMaterial = [
-      new MeshBasicMaterial({ color: new Color("red") }),
-      new MeshBasicMaterial({ color: new Color("yellow") }),
       new MeshBasicMaterial({ color: new Color("white") }),
+      new MeshBasicMaterial({ color: new Color("yellow") }),
+      new MeshBasicMaterial({ color: new Color("green") }),
       new MeshBasicMaterial({ color: new Color("orange") }),
       new MeshBasicMaterial({ color: new Color("blue") }),
-      new MeshBasicMaterial({ color: new Color("green") }),
+      new MeshBasicMaterial({ color: new Color("red") }),
     ]
 
     const cube = new Mesh(cubeGeometry, cubeMaterial)
